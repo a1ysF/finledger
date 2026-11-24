@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: core
+  config:
+    # Local dev: read DB settings from the git-ignored infra/.env (path relative to core/).
+    # optional: = skip if missing (CI, tests, AWS). Real environment variables always win.
+    import: optional:file:../infra/.env[.properties]
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    open-in-view: false        # no lazy DB calls while rendering HTTP responses
+    hibernate:
+      ddl-auto: validate       # Hibernate never creates or changes tables; only Flyway does (rule 10)
+
+management:
+  endpoint:
+    health:
+      show-components: always  # show db, diskSpace, ping separately (revisit for roles in Build 15)

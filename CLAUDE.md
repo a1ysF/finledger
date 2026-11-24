@@ -7,7 +7,7 @@ A money-movement engine for a digital bank: it moves funds between accounts with
 
 ## Stack
 
-Java 21 · Spring Boot 3 · Maven · PostgreSQL 16 · Flyway · Apache Kafka (single node, KRaft) · JUnit 5 · Mockito · Testcontainers · React + TypeScript (Vite) · Docker Compose · GitHub Actions · AWS (EC2, API Gateway; S3 and Lambda later) · Netlify (console hosting)
+Java 21 · Spring Boot 4 · Maven · PostgreSQL 16 · Flyway · Apache Kafka (single node, KRaft) · JUnit 6 · Mockito · Testcontainers · React + TypeScript (Vite) · Docker Compose · GitHub Actions · AWS (EC2, API Gateway; S3 and Lambda later) · Netlify (console hosting)
 
 ## Repo layout (grows build by build)
 
@@ -31,7 +31,8 @@ Fill these in as each build adds them.
 | What | Command |
 | --- | --- |
 | Start local stack | `docker compose -f infra/docker-compose.yml up -d` |
-| Run core tests | `cd core && ./mvnw verify` |
+| Run core app | `cd core && ./mvnw spring-boot:run` (needs the local stack and `infra/.env`, copied from `infra/.env.example`) |
+| Run core tests | `cd core && ./mvnw verify` (needs Docker running; uses its own throwaway Postgres) |
 | Run audit tests | _(Build 13)_ |
 | Run console | _(Build 16)_ |
 

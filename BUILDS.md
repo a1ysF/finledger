@@ -9,7 +9,7 @@ Update the status after each build: `Not started`, `In progress`, `Done`. Put th
 | # | Build | Phase | Status | Done on | Notes |
 | --- | --- | --- | --- | --- | --- |
 | 00 | Repo and workflow setup | Foundation | Done | 2026-11-23 | Docs moved into repo; skills set up (local-markdown issues). `/grill-with-docs` on PRD → GLOSSARY.md, 5 ADRs, PRD updated. Two-log build flow added. Quiz: CLAUDE.md vs PRD.md mostly right (missed "loaded every session"); fresh session half right (stale context, not "full"). |
-| 01 | Spring Boot skeleton + Postgres in Docker | Foundation | Not started | | |
+| 01 | Spring Boot skeleton + Postgres in Docker | Foundation | Done | 2026-11-24 | Spring Boot 4.2.0 (3.5 open-source support ended 2026-06-30; CLAUDE.md and PRD updated). One git-ignored `infra/.env` feeds Compose and Spring (`spring.config.import`). Health test red→green on `components.db`. Quiz: image vs container (credentials and data aren't in the image), DB URL source (tests use Testcontainers, not Compose); both right on retry; Postgres-down right. |
 | 02 | Accounts: first table, first API, first real test | Foundation | Not started | | |
 | 03 | CI: tests run on every push | Foundation | Not started | | |
 | 04 | Deposits and withdrawals with double-entry | Money movement | Not started | | |

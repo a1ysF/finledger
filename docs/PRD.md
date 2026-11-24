@@ -156,7 +156,7 @@ Audit schema: `audit_log` (`event_id` UNIQUE, `event_type`, `payload` JSONB, `re
 | `POST /admin/simulations` | Run N parallel Payments between two fresh demo accounts | ADMIN |
 
 **Other decisions**
-- Java 21, Spring Boot 3, Maven. UUID primary keys generated in Java.
+- Java 21, Spring Boot 4, Maven. (Boot 4 replaced 3.5, whose open-source support ended 2026-06-30.) UUID primary keys generated in Java.
 - Isolation level: Postgres default `READ COMMITTED`, made safe by explicit row locks.
 - Lock timeout set (e.g. 5 s) so a stuck transaction fails instead of hanging.
 - Errors follow RFC 7807 Problem Details with a `reasonCode` field.
@@ -172,7 +172,7 @@ A good test checks behaviour through a public interface (HTTP API or service met
 
 | Level | Tools | What it proves |
 | --- | --- | --- |
-| Unit | JUnit 5, Mockito | Money validation, risk rules, lock-ordering helper, request hashing |
+| Unit | JUnit 6, Mockito | Money validation, risk rules, lock-ordering helper, request hashing |
 | Integration | Testcontainers (Postgres, Kafka), Spring Boot Test | Repositories, transactions, outbox, consumer, security |
 | Concurrency | `ExecutorService` + `CountDownLatch` against Testcontainers | No double-spend, no deadlock |
 | API | MockMvc or RestAssured | Status codes, reason codes, roles |
