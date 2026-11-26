@@ -9,10 +9,18 @@ spring:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  flyway:
+    schemas: ledger            # Flyway creates schema "ledger" and keeps its history table there
+    default-schema: ledger     # migrations run with search_path = ledger, so SQL says just "accounts"
+  mvc:
+    problemdetails:
+      enabled: true            # Spring's own errors (400, 404...) use RFC 7807 JSON; reasonCode comes in Build 08
   jpa:
     open-in-view: false        # no lazy DB calls while rendering HTTP responses
     hibernate:
       ddl-auto: validate       # Hibernate never creates or changes tables; only Flyway does (rule 10)
+    properties:
+      hibernate.default_schema: ledger   # entities map to ledger.<table>
 
 management:
   endpoint:

@@ -10,7 +10,7 @@ Update the status after each build: `Not started`, `In progress`, `Done`. Put th
 | --- | --- | --- | --- | --- | --- |
 | 00 | Repo and workflow setup | Foundation | Done | 2026-11-23 | Docs moved into repo; skills set up (local-markdown issues). `/grill-with-docs` on PRD → GLOSSARY.md, 5 ADRs, PRD updated. Two-log build flow added. Quiz: CLAUDE.md vs PRD.md mostly right (missed "loaded every session"); fresh session half right (stale context, not "full"). |
 | 01 | Spring Boot skeleton + Postgres in Docker | Foundation | Done | 2026-11-24 | Spring Boot 4.2.0 (3.5 open-source support ended 2026-06-30; CLAUDE.md and PRD updated). One git-ignored `infra/.env` feeds Compose and Spring (`spring.config.import`). Health test red→green on `components.db`. Quiz: image vs container (credentials and data aren't in the image), DB URL source (tests use Testcontainers, not Compose); both right on retry; Postgres-down right. |
-| 02 | Accounts: first table, first API, first real test | Foundation | Not started | | |
+| 02 | Accounts: first table, first API, first real test | Foundation | Done | 2026-11-26 | `ledger.accounts` (V1, CHECK constraints) + create/fetch API; balance as JSON string `"0.00"`. 9 API tests on Testcontainers; tests caught blank names being saved and a `createdAt` precision mismatch. Extra `SELECT` before `INSERT` (UUID set in Java) deferred to Build 04 by choice. First branch + PR. Quiz: Q1 NUMERIC vs DOUBLE right on 3rd try (+restatement); Q2 DTO vs entity right on 3rd try; Q3 Testcontainers right on 2nd try (first answer mixed in Actuator/rollback). |
 | 03 | CI: tests run on every push | Foundation | Not started | | |
 | 04 | Deposits and withdrawals with double-entry | Money movement | Not started | | |
 | 05 | Transfers: happy path and money rules | Money movement | Not started | | |
@@ -107,6 +107,7 @@ If a build runs well over 2 hours, stop and split it: finish what's working, wri
 - `POST /deposits` and `POST /withdrawals` as Transfers from/to the System Account, inside `@Transactional`.
 - Withdrawal beyond balance → `INSUFFICIENT_FUNDS`.
 - Invariant test helper: all ledger lines sum to 0; each balance equals the sum of its lines. Reuse it in every later build.
+- Carried over from Build 02: `save()` on an entity whose UUID is set in Java runs a needless `SELECT` before the `INSERT` (Spring Data thinks it might exist and calls `merge`). Revisit the concept, then make entities implement `Persistable<UUID>` so inserts are one statement.
 
 **Done when:** deposit RM100, withdraw RM30 → balance RM70, four ledger lines, invariant holds.
 **Review:** Why does a Deposit need the System Account? What would break if the balance update succeeded but the ledger insert failed?
