@@ -1,0 +1,32 @@
+# CI: run the core test suite (unit + Testcontainers integration tests) on every push and PR.
+# Red/green is decided by the exit code of `./mvnw verify`: any failing test → non-zero → red.
+name: CI
+
+on:
+  push:            # every branch, so you see the result before opening a PR
+  pull_request:    # and on the PR itself, so a red check is visible before merging
+
+permissions:
+  contents: read   # least privilege: the job only needs to read the code
+
+jobs:
+  core:
+    name: core (mvnw verify)
+    runs-on: ubuntu-latest   # Linux runners have Docker preinstalled, which Testcontainers needs
+    defaults:
+      run:
+        working-directory: core
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v7
+
+      - name: Set up Java 21 (Temurin) with a Maven cache
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven                           # saves/restores ~/.m2
+          cache-dependency-path: core/pom.xml    # cache key = hash of this file
+
+      - name: Build and run all tests
+        run: ./mvnw -B verify   # -B = batch mode: no prompts, no progress-bar noise in the log

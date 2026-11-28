@@ -33,6 +33,7 @@ Fill these in as each build adds them.
 | Start local stack | `docker compose -f infra/docker-compose.yml up -d` |
 | Run core app | `cd core && ./mvnw spring-boot:run` (needs the local stack and `infra/.env`, copied from `infra/.env.example`) |
 | Run core tests | `cd core && ./mvnw verify` (needs Docker running; uses its own throwaway Postgres) |
+| CI | `.github/workflows/ci.yml` runs `./mvnw -B verify` in `core/` on every push and pull request |
 | Run audit tests | _(Build 13)_ |
 | Run console | _(Build 16)_ |
 
