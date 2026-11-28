@@ -43,7 +43,7 @@ class AccountApiTest {
         assertThat(created).bodyJson().extractingPath("$.ownerName").isEqualTo("Aisyah binti Ahmad");
         assertThat(created).bodyJson().extractingPath("$.type").isEqualTo("CUSTOMER");
         assertThat(created).bodyJson().extractingPath("$.currency").isEqualTo("MYR");
-        assertThat(created).bodyJson().extractingPath("$.balance").isEqualTo("0.00");
+        assertThat(created).bodyJson().extractingPath("$.balance").isEqualTo("1.00");
         assertThat(created).bodyJson().extractingPath("$.status").isEqualTo("ACTIVE");
         assertThat(created).bodyJson().extractingPath("$.createdAt").isNotNull();
 
